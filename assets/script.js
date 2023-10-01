@@ -29,8 +29,7 @@ var answers = document.getElementById("answers");
 var questions = document.getElementById("question");
 
 var lis = answers.getElementsByTagName('li');
-var wins;
-var losses;
+var score;
 var questionNumber = 0;
 
 var userSelect;
@@ -40,31 +39,32 @@ title.textContent = "Javscript Coding Quiz";
 
 var test = [
     {
-        question: "Q1",
-        answer: ["a1", "w1", "w2", "w3"],
+        question: "What is the correct way to comment out a single line of code in JavaScript?",
+        answer: ["A) // This is a comment", "B) /* This is a comment */", "C) <!-- This is a comment -->", "D) 'This is a comment'"],
         hiddenstate: ["true", "wrong", "wrong", "wrong"]
     },
     {
-        question: "Q2",
-        answer: ["a1", "w1", "w2", "w3"],
-        hiddenstate: ["true", "wrong", "wrong", "wrong"]
+        question: "Which of the following is NOT a valid JavaScript variable name?",
+        answer: ["A) myVariable", "B) 123Variable", "C) _variableName", "D) $variableName"],
+        hiddenstate: ["wrong", "true", "wrong", "wrong"]
     },
     {
-        question: "Q3",
-        answer: ["a1", "w1", "w2", "w3"],
-        hiddenstate: ["true", "wrong", "wrong", "wrong"]
+        question: "What method is used to add a new item to the end of an array in JavaScript?3",
+        answer: ["A) append()", "B) push()", "C) add()", "D) insert()"],
+        hiddenstate: ["wrong", "true", "wrong", "wrong"]
     },
     {
-        question: "Q4",
-        answer: ["a1", "w1", "w2", "w3"],
-        hiddenstate: ["true", "wrong", "wrong", "wrong"]
+        question: "Which of the following JavaScript data types is not primitive?",
+        answer: ["A) number", "B) string", "C) boolean", "D) object"],
+        hiddenstate: ["wrong", "wrong", "wrong", "true"]
     },
     {
-        question: "Q5",
-        answer: ["a1", "w1", "w2", "w3"],
-        hiddenstate: ["true", "wrong", "wrong", "wrong"]
+        question: "What is the purpose of the parseInt() function in JavaScript?",
+        answer: ["A) To round a floating-point number to the nearest integer", "B) To convert a string to a floating-point number", "C) To convert a string to an integer", "D) To remove decimal places from a number"],
+        hiddenstate: ["wrong", "wrong", "true", "wrong"]
     }
 ];
+
 
 
 startButton.addEventListener("click", startGame);
@@ -101,7 +101,7 @@ function nextQuestion() {
     questionNumber++;
 }
 
-function isCorrect() {
+function isCorrect(event) {
 
 }
 
