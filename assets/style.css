@@ -4,41 +4,30 @@
     right: 0px;
 }
 
-#title {
-    display: block;
-    justify-content: center;
-    text-align: center;
-}
-
 #highscore {
     position: absolute;
     top: 0px;
     left: 0px;
 }
 
-#startButton {
-    position: absolute;
-    right: 45%;
-}
-
-
 header {
-    position: relative;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
 }
 
 .container {
-    position: relative;
-    left: 45%;
-    top: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 button {
     display: flex;
     align-items: center;
     justify-content: center;
-    right: 300px;
-    height: 50px;
-    width: 100px;
 }
 
 li {
