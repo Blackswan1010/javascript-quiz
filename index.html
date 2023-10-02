@@ -11,28 +11,32 @@
 <body>
     <header>
         <h1 id="title"></h1>
-        <button id="startButton">Start Button</button>
+        <button id="startButton">Start</button>
     </header>
     <div class="container">
-        <p id="question">Question</p>
+        <p id="question"></p>
         <ul class="answerContainer" id="answers">
             <button>
-                <li class="selectButton" data-state="">1st</li>
+                <li class="selectButton" data-state=""></li>
             </button>
             <button>
-                <li class="selectButton" data-state="">2nd</li>
+                <li class="selectButton" data-state=""></li>
             </button>
             <button>
-                <li  class="selectButton" data-state="">3rd</li>
+                <li class="selectButton" data-state=""></li>
             </button>
             <button>
-                <li class="selectButton" data-state="">4th</li>
+                <li class="selectButton" data-state=""></li>
             </button>
         </ul>
         <p id="correct"></p>
     </div>
-    <p id="timer">timer</p>
-    <p id="highscore">highscore</p>
+    <p id="timer"></p>
+    <p id="highscore">Highscore</p>
+    <div class="container">
+        <textarea id="name" placeholder="Enter Initials Here"></textarea>
+        <button id="saveButton">Save Highscore</button>
+    </div>
 </body>
 <script src="./assets/script.js"></script>
 
