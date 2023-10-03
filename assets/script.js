@@ -24,29 +24,25 @@
 
 
 // Declaring variables and assigning them to the ids from the html file
-var title = document.getElementById("title");
 var timer = document.getElementById("timer");
 var answers = document.getElementById("answers");
 var questions = document.getElementById("question");
-var startButton = document.getElementById("startButton");
 var correct = document.getElementById("correct");
-var saveButton = document.getElementById("saveButton");
-var name = document.getElementById("name");
-var score = document.getElementById("score");
-var userSelect = document.querySelector(".answerContainer");
+var score = document.getElementById("highscore");
+var timeInterval;
 
+
+var startButton = document.getElementById("startButton");
+var userSelect = document.querySelector(".answerContainer");
+var saveButton = document.getElementById("saveButton");
+
+
+userSelect.style = "display: none";
 
 var lis = answers.getElementsByTagName('li');
 
-
-
-
 var questionNumber = 0;
-var timeLeft = 30;
-
-// Sets the title of the game
-title.textContent = "Javscript Coding Quiz";
-userSelect.style = "display: none";
+var timeLeft = 0;
 
 // Declared a variable array of objects
 var test = [
@@ -77,6 +73,11 @@ var test = [
     }
 ];
 
+// 
+function renderScore() {
+    score.textContent = parse(localStorage.getItem("highscore")) + ", " + parse(localStorage.getItem("initials"));
+}
+
 
 // Displays the 'test' object with the properties 'question' and 'answer'
 function setupQuestions() {
@@ -89,9 +90,10 @@ function setupQuestions() {
 
 // Starts the timer
 function startTime() {
+    timeLeft = 30;
 
-
-    var timeInterval = setInterval(function () {
+    timeInterval = setInterval(function () {
+        score = timeLeft;
         timeLeft--;
         if (timeLeft > 1) {
             timer.textContent = timeLeft + " seconds remaining";
@@ -102,11 +104,11 @@ function startTime() {
         if (timeLeft <= 0) {
             timer.textContent = "";
             questions.textContent = "GAME OVER!";
-            questions.style = "font-size: 200px";
+            questions.style = "font-size: 100px";
             userSelect.style = "display: none";
+            correct.textContent = "";
+            score = timeLeft;
             clearInterval(timeInterval);
-
-            return;
         }
 
 
@@ -116,33 +118,35 @@ function startTime() {
 // Displays the next question in the array of test
 function nextQuestion() {
     questionNumber++;
-    if (test[questionNumber].question != null || test[questionNumber].question != undefined) {
+    if (test[questionNumber] !== undefined) {
         questions.textContent = test[questionNumber].question;
-        for (var i = 0; i < test.length; i++) {
+        for (var i = 0; i < test[questionNumber].answer.length; i++) {
             lis[i].textContent = test[questionNumber].answer[i];
             lis[i].setAttribute("data-state", test[questionNumber].state[i]);
         }
     } else {
-        score = timeLeft;
         questions.textContent = "Congratulations, you finished!";
-        return;
+        score = timeLeft;
+        userSelect.style = "display: none";
+        correct.textContent = "";
+        // console.log(score);
+        clearInterval(timeInterval);
     }
 
 
 }
 
-// Saves the score to the local storage
-function saveScore() {
-    localStorage.setItem();
-    localStorage.setItem();
-}
-
 // Starts the game
 function startGame() {
+
+    questionNumber = 0;
     userSelect.style = "display: block";
+    questions.style = "font-size: auto";
+
     startTime();
     setupQuestions();
 }
+
 
 // Event trigger for the startButton to start the game
 startButton.addEventListener("click", startGame);
@@ -152,26 +156,35 @@ userSelect.addEventListener("click", function (event) {
     event.preventDefault();
     var element = event.target;
 
-    console.log("Clicked!")
-
     if (element.matches(".selectButton")) {
         var questionState = element.getAttribute("data-state");
 
         if (questionState === "true") {
-            correct.textContent = "Correct!"
+            correct.textContent = "Correct";
             nextQuestion();
         } else {
-            correct.textContent = "Wrong!"
+            correct.textContent = "Wrong!";
             timeLeft = timeLeft - 10;
+            score = 0;
             nextQuestion();
         }
     }
 });
 
-saveButton.addEventListener("click", function(event){
+
+// saves initials and score to an object
+saveButton.addEventListener("click", function (event) {
     event.preventDefault();
-    var leaderboard = {
-        name: name.value,
-        score: score.value
-    }
+
+    var name = JSON.stringify(document.getElementById("name").value);
+    var highscore = score;
+
+    localStorage.setItem("initials", name);
+    localStorage.setItem("highscore", highscore);
+
+    var li = document.createElement("li");
+    li.textContent = name + ", " + highscore;
+
+    score.appendChild(li);
+
 });

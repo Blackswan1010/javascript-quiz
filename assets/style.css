@@ -6,8 +6,8 @@
 
 #highscore {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 50px;
+    left: 50px;
 }
 
 #saveButton {
