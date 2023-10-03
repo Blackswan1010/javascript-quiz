@@ -86,7 +86,7 @@ function renderScore() {
 // Displays the 'test' object with the properties 'question' and 'answer'
 function setupQuestions() {
     questions.textContent = test[questionNumber].question;
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < test[questionNumber].answer.length; i++) {
         lis[i].textContent = test[questionNumber].answer[i];
         lis[i].setAttribute("data-state", test[questionNumber].state[i]);
     }
@@ -188,7 +188,6 @@ userSelect.addEventListener("click", function (event) {
         }
     }
 });
-
 
 // Saves the score and initials of the player
 saveButton.addEventListener("click", function (event) {
