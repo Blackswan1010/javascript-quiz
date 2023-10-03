@@ -28,10 +28,10 @@ var timer = document.getElementById("timer");
 var answers = document.getElementById("answers");
 var questions = document.getElementById("question");
 var correct = document.getElementById("correct");
-var score = document.getElementById("highscore");
+var pointscore = document.getElementById("highscore");
 var timeInterval;
 
-
+// User input/event variables
 var startButton = document.getElementById("startButton");
 var userSelect = document.querySelector(".answerContainer");
 var saveButton = document.getElementById("saveButton");
@@ -39,7 +39,9 @@ var saveButton = document.getElementById("saveButton");
 
 userSelect.style = "display: none";
 
+// Grabs all the tags of <li> within the container of answers
 var lis = answers.getElementsByTagName('li');
+
 
 var questionNumber = 0;
 var timeLeft = 0;
@@ -73,9 +75,11 @@ var test = [
     }
 ];
 
-// 
+// Renders the last score onto the page from local storage
 function renderScore() {
-    score.textContent = parse(localStorage.getItem("highscore")) + ", " + parse(localStorage.getItem("initials"));
+
+    pointscore.textContent = JSON.parse(localStorage.getItem("initials")) + " - " + JSON.parse(localStorage.getItem("highscore"));
+
 }
 
 
@@ -90,46 +94,56 @@ function setupQuestions() {
 
 // Starts the timer
 function startTime() {
+    // Gives 30 seconds to the user to answer question
     timeLeft = 30;
-
+    // a time interval function that 
     timeInterval = setInterval(function () {
+        // Updates the score with the time left over
         score = timeLeft;
+        // Updates the time decrementing
         timeLeft--;
+        // Checks how much time is left
         if (timeLeft > 1) {
             timer.textContent = timeLeft + " seconds remaining";
         }
         if (timeLeft === 1) {
             timer.textContent = timeLeft + " second remaining";
         }
+        // If time reaches 0 or below then the timer display, user buttons, and alert text disappears and timer stops 
         if (timeLeft <= 0) {
             timer.textContent = "";
             questions.textContent = "GAME OVER!";
             questions.style = "font-size: 100px";
             userSelect.style = "display: none";
             correct.textContent = "";
-            score = timeLeft;
             clearInterval(timeInterval);
         }
 
-
+        // Updates every one second
     }, 1000);
 }
 
 // Displays the next question in the array of test
 function nextQuestion() {
+    // Incrementing the index number
     questionNumber++;
+    // Checks to see if there is anymore objects in the array of tests
     if (test[questionNumber] !== undefined) {
+        // Displays the question
         questions.textContent = test[questionNumber].question;
+        // Displays the set of answer through this iteration
         for (var i = 0; i < test[questionNumber].answer.length; i++) {
             lis[i].textContent = test[questionNumber].answer[i];
             lis[i].setAttribute("data-state", test[questionNumber].state[i]);
         }
     } else {
+        // End of the test and shows congratulatory display
         questions.textContent = "Congratulations, you finished!";
+        questions.style = "font-size: 50px";
+        // sets the score to how much time is left
         score = timeLeft;
         userSelect.style = "display: none";
         correct.textContent = "";
-        // console.log(score);
         clearInterval(timeInterval);
     }
 
@@ -138,20 +152,22 @@ function nextQuestion() {
 
 // Starts the game
 function startGame() {
-
+    // Resets the index to 0
     questionNumber = 0;
+    // User answer buttons will appear
     userSelect.style = "display: block";
     questions.style = "font-size: auto";
 
     startTime();
+    // displays the first question with its answers
     setupQuestions();
 }
 
 
-// Event trigger for the startButton to start the game
+// Event listener for the startButton to start the game
 startButton.addEventListener("click", startGame);
 
-// Event trigger for when the user selects the correct or wrong answer and goes to the next question
+// Event listener for when the user selects the correct or wrong answer and goes to the next question
 userSelect.addEventListener("click", function (event) {
     event.preventDefault();
     var element = event.target;
@@ -160,9 +176,11 @@ userSelect.addEventListener("click", function (event) {
         var questionState = element.getAttribute("data-state");
 
         if (questionState === "true") {
+            // Tells the user the answer they chose is correct and moves to the next question
             correct.textContent = "Correct";
             nextQuestion();
         } else {
+            // Tells the user the answer they chose is wrong moves to the next question with time being deducted by 10 seconds
             correct.textContent = "Wrong!";
             timeLeft = timeLeft - 10;
             score = 0;
@@ -172,19 +190,22 @@ userSelect.addEventListener("click", function (event) {
 });
 
 
-// saves initials and score to an object
+// Saves the score and initials of the player
 saveButton.addEventListener("click", function (event) {
     event.preventDefault();
 
+    // Stringifies the user object input into a string value
     var name = JSON.stringify(document.getElementById("name").value);
     var highscore = score;
 
+    // Setting the key-value pair of name and highscore into local storage
     localStorage.setItem("initials", name);
     localStorage.setItem("highscore", highscore);
 
-    var li = document.createElement("li");
-    li.textContent = name + ", " + highscore;
-
-    score.appendChild(li);
+    // Updates the score with initials
+    renderScore();
 
 });
+
+
+renderScore();
