@@ -13,7 +13,7 @@
 
 Making a coding quiz about Javascript with API!
 
-Deployed Site [https://blackswan1010.github.io/password-generator/](https://blackswan1010.github.io/password-generator/)
+Deployed Site [https://blackswan1010.github.io/javascript-quiz/](https://blackswan1010.github.io/javascript-quiz/)
 
 ## Javscript API Examples
 
